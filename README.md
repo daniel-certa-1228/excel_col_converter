@@ -2,36 +2,38 @@
 
 A simple JavaScript utility for converting between Excel column letters (e.g., A, AA, XFD) and their corresponding column numbers (e.g., 1, 27, 16384).
 
-The core conversion logic is separated into its own file to allow for easy unit testing.
+The core conversion logic is separated into its own file to allow for easy unit testing and clean separation from the front-end code.
 
 ---
 
 ## 🚀 Project Structure
 
-For testing and modularity, the project is organized into three main files:
+The project uses two different module systems based on the environment:
 
-| File Name | Purpose | Module System |
-| :--- | :--- | :--- |
-| **`conversions.js`** | Contains the core functions: `numberToLetters` and `lettersToNumber`. | CommonJS (`module.exports`) for Node.js testing. |
-| **`test.js`** | Node.js script that loads and executes unit tests against the functions in `conversions.js`. | CommonJS (`require`). |
-| **`app.js`** / **`index.html`** | (Your front-end files) Contains the DOM manipulation and event handlers for the web application. | ES Modules (`import/export`) for the browser. |
+| File Name | Purpose | Web Deployment Module | Node.js Test Module |
+| :--- | :--- | :--- | :--- |
+| **`conversions.js`** | Core conversion logic. | **ES Modules** (`export`) | **CommonJS** (`module.exports`) |
+| **`app.js`** | DOM manipulation/event handlers (Browser). | **ES Modules** (`import`) | N/A |
+| **`test.js`** | Unit testing script (Node.js CLI). | N/A | **CommonJS** (`require`) |
 
 ---
 
-## 🧪 Unit Testing
+## 🛠️ **IMPORTANT: Switching `conversions.js` for Testing**
 
-The unit tests confirm that the conversion logic works correctly for various inputs, including single letters, boundary conditions (like 'Z' and 'AA'), and the maximum Excel column ('XFD').
+Since the Node.js test environment uses **CommonJS** and your web app uses **ES Modules**, you must ensure `conversions.js` has the correct export syntax before running tests.
 
-### Prerequisites
+### 1. **Testing Version (Use this for `node test.js`)**
 
-You must have **Node.js** installed on your system to run the test script from the command line.
+To run the tests, your `conversions.js` file must use `module.exports`:
 
-### How to Run Tests
+```javascript
+// conversions.js (COMMONJS VERSION for Testing)
 
-1.  Ensure you have both **`conversions.js`** (with `module.exports`) and **`test.js`** in the same directory.
-2.  Open your command line or terminal.
-3.  Navigate to the directory where these files are saved.
-4.  Execute the test script using the following command:
+function numberToLetters(num) { /* ... */ }
+function lettersToNumber(letters) { /* ... */ }
 
-```bash
-node test.js
+// Export statement for Node.js:
+module.exports = {
+    numberToLetters,
+    lettersToNumber
+};
