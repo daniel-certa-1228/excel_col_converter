@@ -1,5 +1,5 @@
 // Function to convert column number to letters
-function numberToLetters(num) {
+export function numberToLetters(num) {
     let result = '';
     while (num > 0) {
         const remainder = (num - 1) % 26;
@@ -10,7 +10,7 @@ function numberToLetters(num) {
 }
 
 // Function to convert column letters to number
-function lettersToNumber(letters) {
+export function lettersToNumber(letters) {
     let result = 0;
     for (let i = 0; i < letters.length; i++) {
         const char = letters[i].toUpperCase();
@@ -19,9 +19,3 @@ function lettersToNumber(letters) {
     }
     return result;
 }
-
-// *** CRITICAL CHANGE: Use CommonJS export for Node.js ***
-module.exports = {
-    numberToLetters,
-    lettersToNumber
-};
